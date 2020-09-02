@@ -20,7 +20,7 @@ You can try adding in line breaks around 70 columns so the output looks
 better.
 """
 
-__author__ = "???"
+__author__ = 'Tyrell Williams with help from John'
 
 
 import random
@@ -45,9 +45,30 @@ def create_mimic_dict(filename):
                 "who" : ["knows"]
             }
     """
-    # +++your code here+++
-    pass
 
+    # mimic_dict = {'':[]}
+    # with open(filename) as f:
+    #     text = f.read().split()
+    #     mimic_dict[''].append(text[0])
+    # for number,word in enumerate(text):
+    #     if word in mimic_dict:
+    #         mimic_dict[word].append(text[number+1])
+    #     mimic_dict[word] = [text]
+
+    mimic_dict = {}
+    with open(filename, 'r') as f:
+        words = f.read().split()
+    previous_word = ''
+    for word in words:
+        if previous_word not in mimic_dict:
+            mimic_dict[previous_word] = [word]
+        else:
+            mimic_dict[previous_word].append(word)
+        previous_word = word
+    for loop in mimic_dict:
+        print(loop, ':' , mimic_dict[loop])
+    return mimic_dict 
+    
 
 def print_mimic_random(mimic_dict, num_words):
     """Given a previously created mimic_dict and num_words,
@@ -58,8 +79,23 @@ def print_mimic_random(mimic_dict, num_words):
         - Randomly select a new word from the next-list
         - Repeat this process num_words times
     """
-    # +++your code here+++
-    pass
+    
+    start_word = ''
+    result = ''
+    for _ in range(num_words):
+        if start_word in mimic_dict:
+            random_word = random.choice(mimic_dict[start_word])
+            result += ' ' + random_word + ' '
+            start_word = random_word
+    return result
+    
+    
+    
+    # for _ in range(200):
+    #     print(start_word, end='')
+    #     new_word = mimic_dict.get(start_word)
+    #     if not new_word:
+    #         new_word = mimic_dict['']
 
 
 def main(args):
